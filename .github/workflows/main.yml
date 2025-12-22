@@ -20,7 +20,7 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore MiApi/MiApi.csproj
+      run: dotnet restore ./MiApi.csproj
 
     - name: Build project
-      run: dotnet build MiApi/MiApi.csproj --configuration Release --no-restore
+      run: dotnet build ./MiApi.csproj --configuration Release --no-restore
