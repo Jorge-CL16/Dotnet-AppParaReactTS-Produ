@@ -7,7 +7,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/*
+
 var origenesPermitidos = builder.Configuration.GetSection("origenesPermitidos").Get<string[]>();
 
 
@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
     {
         optionsCors.WithOrigins(origenesPermitidos).AllowAnyMethod().AllowAnyHeader();
     });
-}); */
+});
 
 var app = builder.Build();
 
