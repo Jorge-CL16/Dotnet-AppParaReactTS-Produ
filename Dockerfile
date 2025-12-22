@@ -20,7 +20,5 @@ COPY --from=build /app/out .
 # Indicamos el puerto
 EXPOSE 8080
 
-ENV ASPNETCORE_URLS=http://+:8080
-
 # Arrancamos la API
 ENTRYPOINT ["dotnet", "MiApi.dll"]
