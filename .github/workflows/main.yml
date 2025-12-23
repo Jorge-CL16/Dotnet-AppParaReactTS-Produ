@@ -1,4 +1,4 @@
-name: CI - WebAPICRUD
+name: CI/CD - WebAPICRUD
 
 on:
   push:
@@ -9,22 +9,32 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-    - name: Setup .NET 8
-      uses: actions/setup-dotnet@v4
+    - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore ./MiApi.csproj
+    - run: dotnet restore ./MiApi.csproj
+    - run: dotnet build ./MiApi.csproj -c Release --no-restore
 
-    - name: Build project
-      run: dotnet build ./MiApi.csproj --configuration Release --no-restore
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v4
 
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - run: dotnet test ./MiApi.csproj -c Release --no-build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    steps:
     - name: Deploy to Render
-      if: success()
       run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
